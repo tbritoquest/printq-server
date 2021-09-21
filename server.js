@@ -15,10 +15,17 @@ app.use(express.json())
 //parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({extended: true}))
 
-//simple route 
-app.get("/", (req,res)=>{
-    res.json({message: "Welcome to PRINTQ"})
+// DATABASE
+const db = require("./app/models")
+db.sequelize.sync({force:true}).then(()=>{ // for dev purposes
+    console.log("Drop and re-sync db.")
 })
+
+
+require("./app/routes/customer")(app)
+
+
+
 
 //set port, listen for requests
 const PORT = process.env.PORT || 8080
