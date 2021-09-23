@@ -1,3 +1,5 @@
+// Initialize Sequelize
+
 const dbConfig = require("../config/db.config")
 
 const Sequelize = require("sequelize")
@@ -21,5 +23,12 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 db.customers = require("./customer.model")(sequelize,Sequelize)
+db.orders = require("./order.model")(sequelize,Sequelize)
+db.users = require("./user.model")(sequelize,Sequelize)
 
+db.customers.hasMany(db.orders, {as: "orders"})
+db.orders.belongsTo(db.customers,{
+    foreignKey: "customerId",
+    as: "customer"
+})
 module.exports = db

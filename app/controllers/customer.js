@@ -1,42 +1,68 @@
 //Import db here
 const db = require('../models/index')
 const Customer = db.customers
+const Order = db.orders
+const User = db.users
 const Op = db.Sequelize.Op
 
 //Create a new customer
 exports.create = (req,res)=>{
-
-    // Validate request
-
-    //create basic customer
-    const customer = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        address: req.body.address
+    
+    const data = {
+        firstName: req.body.firstName.toLowerCase(),
+        lastName: req.body.lastName.toLowerCase(),
+        address: req.body.address.toLowerCase(),
+        email:req.body.email.toLowerCase()
     }
 
-    //Save customer in db
-    Customer.create(customer)
-        .then(data => {
-            res.send(data)
-        }).catch(err=> {
-            res.status(500).send({
-                message: err.message || "Some error occurred while creating the Customer."
-            })
+    return Customer.create(data)
+        .then(()=>{
+            res.sendStatus(200)
+        })
+        .catch(err =>{
+            res.status(500).send(err.errors)
         })
 }
 
 
-// Update a Customer by the id in the request
+// Update a Customer given id
 exports.update = (req, res) => {
-    res.json({message: "update customer"})
-}
-
-// Find a single Customer with given id
-exports.findOne = (req,res) => {
     const id = req.params.id
 
-    res.json({message: "Get customer"})
+    for (const property in req.body) {
+        req.body[property] = req.body[property].toLowerCase()
+    }
+
+    Customer.update(req.body,{
+        where: {id: id}
+    })
+        .then( num => {
+            if(num == 1){
+                res.sendStatus(200)
+            }else{
+                res.status(500).send(`Cannot update Customer with id:${id}`)
+            }
+        })
+        .catch(err => {
+            res.status(500).send(err.errors)
+        })
+}
+
+// Find one customer given id
+exports.findOne = (req,res) => {
+    console.log("findone")
+    const id = req.params.id
+    Customer.findByPk(id)
+        .then(data => {
+            if(data)
+                res.send(data)
+            else
+                res.status(500).send("Not found")
+        })
+        .catch(err => {
+            res.status(500).send(err.errors)
+        })
+        
 }
 
 
