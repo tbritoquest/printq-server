@@ -29,6 +29,10 @@ db.users = require("./user.model")(sequelize,Sequelize)
 db.customers.hasMany(db.orders, {as: "orders"})
 db.orders.belongsTo(db.customers,{
     foreignKey: "customerId",
-    as: "customer"
+    allowNull: false,
+    as: "customer",
+    validate:{
+        notEmpty: true,
+    },
 })
 module.exports = db

@@ -49,8 +49,7 @@ exports.update = (req, res) => {
 }
 
 // Find one customer given id
-exports.findOne = (req,res) => {
-    console.log("findone")
+exports.findById = (req,res) => {
     const id = req.params.id
     Customer.findByPk(id)
         .then(data => {
@@ -64,6 +63,26 @@ exports.findOne = (req,res) => {
         })
         
 }
+
+exports.findByEmail = (req,res) => {
+    const email = req.body.email.toLowerCase()
+
+    Customer.findOne({ where: { email: email } })
+        .then(data => {
+            if(data){
+                console.log(data)
+                res.send(data)
+            }
+            else
+                res.status(500).send("Not found")
+            
+        }).catch(err => {
+            res.status(500).send(err.errors)
+        })
+}
+
+
+
 
 
 

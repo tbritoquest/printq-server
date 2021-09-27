@@ -4,7 +4,8 @@ module.exports = app => {
 
     router.post("/", customers.create)
     router.put("/:id", customers.update)
-    router.get("/:id", customers.findOne)
+    router.get("/:id", customers.findById)
+    router.post("/search", customers.findByEmail)
 
     app.use('/api/customers',router)
 }

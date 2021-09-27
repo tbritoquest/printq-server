@@ -23,7 +23,7 @@ db.sequelize.sync({force:true}).then(()=>{ // for dev purposes
 
 
 require("./app/routes/customer")(app)
-
+require("./app/routes/order")(app)
 
 
 
