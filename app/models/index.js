@@ -25,6 +25,8 @@ db.sequelize = sequelize
 db.customers = require("./customer.model")(sequelize,Sequelize)
 db.orders = require("./order.model")(sequelize,Sequelize)
 db.users = require("./user.model")(sequelize,Sequelize)
+db.jobs = require("./job.model")(sequelize,Sequelize)
+
 
 db.customers.hasMany(db.orders, {as: "orders"})
 db.orders.belongsTo(db.customers,{
@@ -35,4 +37,15 @@ db.orders.belongsTo(db.customers,{
         notEmpty: true,
     },
 })
+
+db.orders.hasMany(db.jobs,{as: "jobs"})
+db.jobs.belongsTo(db.orders, {
+    foreignKey: "orderId",
+    allowNull:false,
+    as: "order",
+    validate: {
+        notEmpty: true
+    }
+})
+
 module.exports = db
