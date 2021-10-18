@@ -1,7 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
     const Job = sequelize.define("job", {
         printSpecs: {
-            type: Sequelize.STRING,
+            type: Sequelize.JSON ,
             validate:{
                 notEmpty: true,
             },

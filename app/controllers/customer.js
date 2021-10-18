@@ -1,5 +1,6 @@
 //Import db here
 const db = require('../models/index')
+const { paginatedResults } = require('../routes/middleware')
 const Customer = db.customers
 const Order = db.orders
 const User = db.users
@@ -23,7 +24,6 @@ exports.create = (req,res)=>{
             res.status(500).send(err.errors)
         })
 }
-
 
 // Update a Customer given id
 exports.update = (req, res) => {
@@ -79,6 +79,94 @@ exports.findByEmail = (req,res) => {
         }).catch(err => {
             res.status(500).send(err.errors)
         })
+}
+
+exports.findAll = (req, res) => {
+    res.send(res.paginatedResults)
+}
+
+exports.find = (req,res) => {
+    let page = req.query.page 
+    let limit = req.query.limit
+    let searchInput = req.query.search
+
+    let query = {}
+    if(searchInput){
+        query = {
+            where: {
+              [Op.or]: [
+                { firstName:  {
+                    [Op.like]: `${searchInput}%`
+                  }
+                
+                },
+                { lastName:  {
+                    [Op.like]: `${searchInput}%`
+                  }
+                
+                },
+                {
+                  email: {
+                    [Op.like]: `${searchInput}%`
+                  }
+                }
+              ]
+            }
+          }
+    }
+
+    Customer.findAll(query)
+    .then(data => {
+        let results = paginateResults(page,limit,data)
+        res.send(results)
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+            err.message || "Some error occurred while retrieving records."
+        })
+    })
+    
+    
+}
+
+// function allCustomers(page,limit){
+
+//     Customer.findAll()
+//         .then(data => {
+//           return paginateResults(page,limit,data)
+//         })
+//         .catch(err => {
+//           return {error: err}
+//         })
+// }
+
+function paginateResults(page,limit,data){
+    page = parseInt(page)
+    limit = parseInt(limit)
+    let startIndex = (page-1)*limit
+    let endIndex = page*limit
+
+    const results = {}
+
+    results.results = data.slice(startIndex,endIndex)
+
+    if(endIndex< data.length){
+        results.next ={
+            page: page+1,
+            limit
+        }
+    }
+
+    if(startIndex>0){
+        results.previous = {
+            page: page-1,
+            limit
+        }
+    }
+
+    results.numOfPages = Math.ceil(data.length/limit)
+    return results
 }
 
 
