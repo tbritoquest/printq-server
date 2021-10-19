@@ -2,7 +2,7 @@
 const db = require('../models/index')
 const Order = db.Order
 const { jobs } = require('../models/index')
-const Job = db.jobs
+const Job = db.Job
 const Op = db.Sequelize.Op
 
 exports.create =  (req, res) => {
@@ -38,7 +38,15 @@ exports.create =  (req, res) => {
   }
 
 exports.find = (req,res) => {
-    let query = {}
+
+    const thirtyDaysAgo = new Date(new Date().setDate(new Date().getDate() - 30));
+    let query = {
+      createdAt: {
+        [Op.lt]: new Date(),
+        [Op.gt]: thirtyDaysAgo
+      },
+      include: Job
+    }
 
     Order.findAll(query)
     .then(data => {
