@@ -1,7 +1,7 @@
 //Import db here
 const db = require('../models/index')
 const { paginatedResults } = require('../routes/middleware')
-const Customer = db.customers
+const Customer = db.Customer
 const Order = db.orders
 const User = db.users
 const Op = db.Sequelize.Op
@@ -50,6 +50,7 @@ exports.update = (req, res) => {
 
 // Find one customer given id
 exports.findById = (req,res) => {
+    console.log(Customer)
     const id = req.params.id
     Customer.findByPk(id)
         .then(data => {

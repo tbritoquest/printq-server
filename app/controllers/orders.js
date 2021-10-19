@@ -1,7 +1,7 @@
 //Import db here
-const { jobs } = require('../models/index')
 const db = require('../models/index')
-const Order = db.orders
+const Order = db.Order
+const { jobs } = require('../models/index')
 const Job = db.jobs
 const Op = db.Sequelize.Op
 
@@ -38,7 +38,6 @@ exports.create =  (req, res) => {
   }
 
 exports.find = (req,res) => {
-
     let query = {}
 
     Order.findAll(query)

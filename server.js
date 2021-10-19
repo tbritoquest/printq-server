@@ -16,21 +16,21 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 //seeding
-const fs = require("fs")
-const seedQuery = fs.readFileSync("./app/db/seed.sql", {
-    encoding: "utf-8"
-})
+// const fs = require("fs")
+// const seedQuery = fs.readFileSync("./app/db/seed.sql", {
+//     encoding: "utf-8"
+// })
 
 // DATABASE
 const db = require("./app/models")
 db.sequelize.sync({force:true}).then(()=>{ // for dev purposes
     console.log("Drop and re-sync db.")
-    console.log("Running SQL seed....")
-    db.sequelize.query(seedQuery, err=> {
-        if(err){
-            throw err
-        }
-    })
+    // console.log("Running SQL seed....")
+    // db.sequelize.query(seedQuery, err=> {
+    //     if(err){
+    //         throw err
+    //     }
+    // })
 })
 
 
