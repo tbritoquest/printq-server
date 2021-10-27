@@ -33,10 +33,27 @@ module.exports = {
     for(let i=0;i<customers.length;i++){
       await Order.create({
         customerId: customers[i].id,
-        createdAt: faker.date.between('2021-01-01', currDate)
+        createdAt: faker.date.between('2021-10-01', currDate)
       })
     }
 
+    await Order.create({
+      customerId: customers[0].id,
+      createdAt: new Date()
+    })
+
+
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+
+    await Order.create({
+      customerId: customers[1].id,
+      createdAt: yesterday
+    })
+
+    
+
+    
     // Create jobs
     let orders = await Order.findAll({})
     
@@ -45,7 +62,7 @@ module.exports = {
         for(let x=0;x<numOfJobs;x++){
           await Job.create({
             orderId: orders[i].id,
-            status: "new"
+            name: faker.commerce.productName()
           })
         }
     }

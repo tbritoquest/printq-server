@@ -1,6 +1,7 @@
 //Import db here
 const db = require('../models/index')
 const Order = db.Order
+const Customer = db.Customer
 const { jobs } = require('../models/index')
 const Job = db.Job
 const Op = db.Sequelize.Op
@@ -39,19 +40,55 @@ exports.create =  (req, res) => {
 
 exports.find = (req,res) => {
 
-    const thirtyDaysAgo = new Date(new Date().setDate(new Date().getDate() - 30));
-    let query = {
-      createdAt: {
-        [Op.lt]: new Date(),
-        [Op.gt]: thirtyDaysAgo
-      },
-      include: Job
+    let daysAgo = req.query.date
+    // const lowerBoundDate = new Date(new Date().setDate(new Date().getDate() - daysAgo));
+
+    const today = new Date()
+    today.setUTCHours(0,0,0,0)
+    const tomorrow = new Date(today)
+
+    // let startDate,endDate
+
+    // today.setDate(today.getDate()-daysAgo)
+
+    // if(daysAgo === 1){
+    //   tomorrow.setDate(tomorrow.getDate()-1)
+    // }else{
+    //   tomorrow.setDate(tomorrow.getDate() + 1)
+    // }
+
+    if(daysAgo == 0){
+      tomorrow.setDate(tomorrow.getDate() + 1)
+    }else if(daysAgo == 1){
+      today.setDate(today.getDate()-1)
+    }else{
+      tomorrow.setDate(tomorrow.getDate() + 1)
+      today.setDate(today.getDate()-daysAgo)
     }
+
+    
+
+    let query = {
+        where: {
+            createdAt: {
+              [Op.lt]: tomorrow,
+              [Op.gt]: today
+            },
+          },
+          include: [Job,Customer],
+          order: [
+            // Will escape title and validate DESC against a list of valid direction parameters
+            ['createdAt', 'DESC'],
+          ]
+      
+    }
+
+    const results = {}
 
     Order.findAll(query)
     .then(data => {
-        // let results = paginateResults(page,limit,data)
-        res.send(data)
+        results.results = data
+        res.send(results)
     })
     .catch(err => {
         res.status(500).send({

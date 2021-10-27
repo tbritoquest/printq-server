@@ -22,7 +22,11 @@ module.exports = (sequelize, DataTypes) => {
     notes: DataTypes.TEXT,
     sampleDate: DataTypes.STRING,
     status: DataTypes.STRING,
-    orderId: DataTypes.INTEGER
+    orderId: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
+      defaultValue: "new"
+    }
   }, {
     sequelize,
     modelName: 'Job',

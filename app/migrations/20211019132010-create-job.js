@@ -23,11 +23,15 @@ module.exports = {
       notes: {
         type: Sequelize.TEXT
       },
+      name:{
+        type:Sequelize.STRING
+      },
       sampleDate: {
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: "new"
       },
       createdAt: {
         allowNull: false,
