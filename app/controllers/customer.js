@@ -50,7 +50,7 @@ exports.update = (req, res) => {
 
 // Find one customer given id
 exports.findById = (req,res) => {
-    console.log(Customer)
+
     const id = req.params.id
     Customer.findByPk(id)
         .then(data => {
@@ -71,7 +71,6 @@ exports.findByEmail = (req,res) => {
     Customer.findOne({ where: { email: email } })
         .then(data => {
             if(data){
-                console.log(data)
                 res.send(data)
             }
             else
@@ -131,16 +130,6 @@ exports.find = (req,res) => {
     
 }
 
-// function allCustomers(page,limit){
-
-//     Customer.findAll()
-//         .then(data => {
-//           return paginateResults(page,limit,data)
-//         })
-//         .catch(err => {
-//           return {error: err}
-//         })
-// }
 
 function paginateResults(page,limit,data){
     page = parseInt(page)

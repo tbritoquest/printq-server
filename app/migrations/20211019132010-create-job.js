@@ -18,16 +18,19 @@ module.exports = {
         }
       },
       printSpecs: {
-        type: Sequelize.JSON
+        type: Sequelize.JSON,
+        allowNull: false,
       },
       notes: {
         type: Sequelize.TEXT
       },
       name:{
-        type:Sequelize.STRING
+        type:Sequelize.STRING,
+        allowNull: false,
       },
       sampleDate: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       status: {
         type: Sequelize.STRING,

@@ -2,7 +2,8 @@
 
 const { query } = require('express');
 const {Customer,Order,Job} = require('../models')
-const faker = require('faker')
+const faker = require('faker');
+const { fake } = require('faker');
 const numOfCustomers = 100
 
 
@@ -57,11 +58,14 @@ module.exports = {
     // Create jobs
     let orders = await Order.findAll({})
     
+    
     for(let i=0;i<orders.length;i++){
         let numOfJobs = Math.floor(Math.random() * 3)+1
         for(let x=0;x<numOfJobs;x++){
           await Job.create({
+            printSpecs: {},
             orderId: orders[i].id,
+            sampleDate: 'pending',
             name: faker.commerce.productName()
           })
         }

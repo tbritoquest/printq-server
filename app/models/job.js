@@ -18,14 +18,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Job.init({
-    printSpecs: DataTypes.JSON,
-    notes: DataTypes.TEXT,
-    sampleDate: DataTypes.STRING,
-    status: DataTypes.STRING,
+    printSpecs: {
+      type: DataTypes.JSON,
+      allowNull: false
+    },
+    notes: {
+      type: DataTypes.JSON
+    },
+    sampleDate: {
+      type:DataTypes.STRING,
+      allowNull: false
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: "new"
+    },
     orderId: DataTypes.INTEGER,
     name: {
       type: DataTypes.STRING,
-      defaultValue: "new"
+      allowNull: false
     }
   }, {
     sequelize,

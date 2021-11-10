@@ -22,7 +22,6 @@ exports.create =  (req, res) => {
         .then(order=>{
             let jobs =  assignIDToJobs(order.id, req.body.jobs)
             
-            console.log("jobs: ", jobs)
             Job.bulkCreate(jobs).then(jobs=>{
               res.sendStatus(200)
             }).catch(err=>{
@@ -41,22 +40,9 @@ exports.create =  (req, res) => {
 exports.find = (req,res) => {
 
     let daysAgo = req.query.date
-    // const lowerBoundDate = new Date(new Date().setDate(new Date().getDate() - daysAgo));
-
     const today = new Date()
     today.setUTCHours(0,0,0,0)
     const tomorrow = new Date(today)
-
-    // let startDate,endDate
-
-    // today.setDate(today.getDate()-daysAgo)
-
-    // if(daysAgo === 1){
-    //   tomorrow.setDate(tomorrow.getDate()-1)
-    // }else{
-    //   tomorrow.setDate(tomorrow.getDate() + 1)
-    // }
-
     if(daysAgo == 0){
       tomorrow.setDate(tomorrow.getDate() + 1)
     }else if(daysAgo == 1){
@@ -65,8 +51,6 @@ exports.find = (req,res) => {
       tomorrow.setDate(tomorrow.getDate() + 1)
       today.setDate(today.getDate()-daysAgo)
     }
-
-    
 
     let query = {
         where: {
@@ -77,7 +61,6 @@ exports.find = (req,res) => {
           },
           include: [Job,Customer],
           order: [
-            // Will escape title and validate DESC against a list of valid direction parameters
             ['createdAt', 'DESC'],
           ]
       
@@ -98,6 +81,30 @@ exports.find = (req,res) => {
     })
     
     
+}
+
+exports.findById = (req,res) => {
+
+  const id = req.params.id
+
+  let query = {
+    where: {
+        id: id
+      },
+      include: [Job,Customer],
+    }   
+
+  Order.findOne(query)
+      .then(data => {
+          if(data)
+              res.send(data)
+          else
+              res.status(500).send("Not found")
+      })
+      .catch(err => {
+          res.status(500).send(err.errors)
+      })
+      
 }
 
 function assignIDToJobs(orderId, jobs){
@@ -121,54 +128,6 @@ exports.findAll = (req, res) => {
       })
     })
 }
-
-
-
-// exports.find = (req,res) => {
-//   let page = req.query.page 
-//   let limit = req.query.limit
-//   let searchInput = req.query.search
-
-//   let query = {}
-//   if(searchInput){
-//       query = {
-//           where: {
-//             [Op.or]: [
-//               { firstName:  {
-//                   [Op.like]: `${searchInput}%`
-//                 }
-              
-//               },
-//               { lastName:  {
-//                   [Op.like]: `${searchInput}%`
-//                 }
-              
-//               },
-//               {
-//                 email: {
-//                   [Op.like]: `${searchInput}%`
-//                 }
-//               }
-//             ]
-//           }
-//         }
-//   }
-
-//   Order.findAll(query)
-//   .then(data => {
-//       let results = paginateResults(page,limit,data)
-//       res.send(results)
-//   })
-//   .catch(err => {
-//       res.status(500).send({
-//           message:
-//           err.message || "Some error occurred while retrieving records."
-//       })
-//   })
-  
-  
-// }
-
 
 
 
