@@ -13,7 +13,8 @@ exports.create = (req,res)=>{
         firstName: req.body.firstName.toLowerCase(),
         lastName: req.body.lastName.toLowerCase(),
         address: req.body.address.toLowerCase(),
-        email:req.body.email.toLowerCase()
+        email:req.body.email.toLowerCase(),
+        phone: req.body.phone
     }
 
     return Customer.create(data)
