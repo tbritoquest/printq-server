@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false,
       },
       notes: {
-        type: Sequelize.TEXT
+        type: Sequelize.JSON
       },
       name:{
         type:Sequelize.STRING,
