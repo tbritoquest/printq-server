@@ -16,8 +16,9 @@
   "production": {
     "username": "z808hw6k8xcait5w",
     "password": "yq963kv7iuspisrp",
-    "database": "heroku_852e35a6a4ec477",
+    "database": "ll2e1h4quwiatqux",
     "host": "bv2rebwf6zzsv341.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "port": 3306,
     "dialect": "mysql"
   }
 }
