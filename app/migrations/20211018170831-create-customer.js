@@ -34,6 +34,12 @@ module.exports = {
         allowNull: false,
         notEmpty: true
       },
+      isActive:{
+        type: Sequelize.TINYINT,
+        allowNull: false,
+        defaultValue: 1
+
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
