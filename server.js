@@ -19,7 +19,7 @@ app.use(express.urlencoded({extended: true}))
 const db = require("./app/models")
 
 const env = process.env.NODE_ENV || 'development';
-db.sequelize.sync({force: (env=='development')}).then(()=>{ // for dev purposes
+db.sequelize.sync({force: !(env=='development')}).then(()=>{ // for dev purposes
     console.log("Drop and re-sync db.")
 })
 
