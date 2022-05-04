@@ -110,6 +110,11 @@ exports.find = (req,res) => {
                   email: {
                     [Op.like]: `${searchInput}%`
                   }
+                },
+                {
+                  phone: {
+                    [Op.like]: `${searchInput}%`
+                  }
                 }
               ]
             }
