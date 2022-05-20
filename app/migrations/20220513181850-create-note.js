@@ -1,37 +1,24 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Jobs', {
+    await queryInterface.createTable('Notes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      orderId: {
+      jobId: {
         type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
         references: {
-          model: 'Orders',
+          model: 'Jobs',
           key: 'id',
-          as: 'orderId',
+          as: 'jobId',
         }
       },
-      printSpecs: {
-        type: Sequelize.JSON,
-        allowNull: false,
-      },
-      name:{
-        type:Sequelize.STRING,
-        allowNull: false,
-      },
-      sampleDate: {
+      content: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      status: {
-        type: Sequelize.STRING,
-        defaultValue: "new"
       },
       createdAt: {
         allowNull: false,
@@ -44,6 +31,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Jobs');
+    await queryInterface.dropTable('Notes');
   }
 };

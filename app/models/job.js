@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
         Job.belongsTo(models.Order, {
           foreignKey: 'orderId',
           onDelete: 'CASCADE'
+        }),
+        Job.hasMany(models.Note, {
+          foreignKey: 'jobId',
         })
     }
   };
@@ -21,9 +24,6 @@ module.exports = (sequelize, DataTypes) => {
     printSpecs: {
       type: DataTypes.JSON,
       allowNull: false
-    },
-    notes: {
-      type: DataTypes.JSON
     },
     sampleDate: {
       type:DataTypes.STRING,

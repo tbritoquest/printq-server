@@ -5,6 +5,8 @@ module.exports = app => {
     const Job = db.jobs
 
     router.get("/", jobs.find)
+    router.get("/:id", jobs.findById)
+    router.put("/:id",jobs.update)
     
     app.use('/api/jobs',router)
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 const { query } = require('express');
-const {Customer,Order,Job} = require('../models')
+const {Customer,Order,Job,Note} = require('../models')
 const faker = require('faker');
 const { fake } = require('faker');
 const numOfCustomers = 100
@@ -68,7 +68,14 @@ module.exports = {
             orderId: orders[i].id,
             sampleDate: 'pending',
             name: faker.commerce.productName(),
-            status: statuses[statusIndex]
+            status: statuses[statusIndex],
+            Notes: [
+              {content: faker.lorem.sentence()},
+              {content: faker.lorem.sentence()},
+              {content: faker.lorem.sentence()}
+            ]
+          }, {
+            include: [ Note ]
           })
         }
     }
