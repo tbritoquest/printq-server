@@ -52,9 +52,8 @@ module.exports = {
       createdAt: yesterday
     })
 
-    
 
-    let statuses = ["new","cancelled","completed","under review"]
+    let statuses = ["new order","sent","received","done","cancelled"]
     // Create jobs
     let orders = await Order.findAll({})
     
@@ -64,7 +63,17 @@ module.exports = {
         for(let x=0;x<numOfJobs;x++){
           let statusIndex = Math.floor(Math.random() * 4)
           await Job.create({
-            printSpecs: {},
+            printSpecs: {
+              "Coating": "No Coating",
+              "Colorspec": "4/0 (4 color front)",
+              "Majestic Type": "Brown Kraft",
+              "Product Orientation": "Horizontal",
+              "Product Type": "majestic",
+              "Runsize": "500",
+              "Size": "5.5x17",
+              "Stock": "18PT Uncoated Kraft",
+              "groupName": "Test Data"
+            },
             orderId: orders[i].id,
             sampleDate: 'pending',
             name: faker.commerce.productName(),

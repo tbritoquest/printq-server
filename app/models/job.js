@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: {
       type: DataTypes.STRING,
-      defaultValue: "new"
+      defaultValue: "new order"
     },
     orderId: DataTypes.INTEGER,
     name: {

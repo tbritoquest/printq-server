@@ -27,6 +27,7 @@ db.sequelize.sync({force: (env=='development')}).then(()=>{ // for dev purposes
 require("./app/routes/customer")(app)
 require("./app/routes/order")(app)
 require("./app/routes/job")(app)
+require("./app/routes/note")(app)
 
 const PORT = process.env.PORT || 8080
 app.listen(PORT, ()=>{
