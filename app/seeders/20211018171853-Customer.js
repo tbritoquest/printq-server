@@ -76,6 +76,7 @@ module.exports = {
             },
             orderId: orders[i].id,
             sampleDate: 'pending',
+            dueDate: 'pending',
             name: faker.commerce.productName(),
             status: statuses[statusIndex],
             Notes: [
