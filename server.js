@@ -28,6 +28,7 @@ require("./app/routes/customer")(app)
 require("./app/routes/order")(app)
 require("./app/routes/job")(app)
 require("./app/routes/note")(app)
+require("./app/routes/alert")(app)
 
 const PORT = process.env.PORT || 8080
 app.listen(PORT, ()=>{
